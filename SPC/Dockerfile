@@ -1,5 +1,7 @@
-FROM openjdk:8
+FROM maven:3-jdk-8
 LABEL author=KIRAN
-RUN wget https://springpetclinic1984.s3.amazonaws.com/spring-petclinic-2.2.0.BUILD-SNAPSHOT.jar
+RUN mkdir /usr/src/spc
+WORKDIR /usr/src/spc
+RUN git clone https://github.com/spring-projects/spring-petclinic.git && cd spring-petclinic && mvn clean package
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "spring-petclinic-2.2.0.BUILD-SNAPSHOT.jar"]
+ENTRYPOINT [ "java", "-jar", "/usr/src/spc/spring-petclinic/target/spring-petclinic-2.2.0.BUILD-SNAPSHOT.jar" ]
